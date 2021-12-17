@@ -1,22 +1,44 @@
 
-import requests
+# Se ha utilizado el tutorial: https://www.emqx.com/en/blog/how-to-use-mqtt-in-python
 
-HOST = 'http://localhost'
-PORT = 1880
-DIR = 'SenseHat'
+from paho.mqtt import client as mqtt_client
 
-URL = HOST + ':' + str(PORT) + '/' + DIR
+import json
+
+DEFAULT_PORT = 1880
 
 class BrokerConnector:
   
-  def __init__(self, url = None):
-    self.setHost(url if url is not None else URL)
+  def __init__(self, config = None):
+    self.__config = config
+    self.__client = None
 
-  def setHost(self, url):
-    self.url = url
+  def setConfig(self, config):
+    self.__config = config
 
-  def sendData(self, data):
-    try:
-      result = requests.post(self.url, data = data)
-    except requests.exceptions.ReadTimeout: 
-      pass
+  def __connect_mqtt(self):
+    def on_connect(client, userdata, flags, rc):
+        if rc == 0:
+            print("Connected to MQTT Broker!")
+        else:
+            print("Failed to connect, return code %d\n", rc)
+
+    client = mqtt_client.Client(str(self.__config['clientID']))
+    if 'username' in self.__config:
+      client.username_pw_set(self.__config.username, self.__config.password)
+    client.on_connect = on_connect
+    client.connect(self.__config['host'], int(self.__config['port']))
+    self.__client = client
+
+  def publish(self, topic, msg):
+    newMessage = msg
+    if not isinstance(msg, str): 
+      newMessage = json.dumps(msg)
+    result = self.__client.publish(topic, newMessage)
+    status = result[0]
+    if status != 0:
+      print(f"Failed to send message to topic {topic}")
+
+  def run(self):
+    self.__connect_mqtt()
+    self.__client.loop_start()

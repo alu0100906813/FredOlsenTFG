@@ -4,13 +4,20 @@ from datetime import datetime
 import json
 
 from brokerConnector import BrokerConnector
-from sense_hat import SenseHat
+from sense_emu import SenseHat
 from config import Config
 
 SLEEP_DELAY = 5.0
 
-broker = BrokerConnector()
 config = Config()
+
+broker = BrokerConnector({
+  'clientID' : 1,
+  'host' : config.get('host'),
+  'port' : config.get('port')
+})
+broker.run()
+
 senseHat = None
 
 try:
@@ -96,7 +103,7 @@ def main():
     data = getJSONData()
     data = mergeDict(data, config.getAll())
     print(json.dumps(data, indent=1))
-    broker.sendData(data)
+    broker.publish('NEW_TEST', data)
     sleep(SLEEP_DELAY)
 
 main()
