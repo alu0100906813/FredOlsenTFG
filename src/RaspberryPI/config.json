@@ -2,5 +2,8 @@
   "id" : "1234",
   "ship" : "S1",
   "host" : "127.0.0.1",
-  "port" : "1883"
+  "port" : "1883",
+  "user" : "admin",
+  "password" : "gAAAAABhvjNwhOXik-k2Ll5ir0ogiqk31xVazv9bMQe4wkWSSQsssQSzIsPzgAsFe_4fX35gRwQ_2j7wOaZq_pxUAD_fCP4NXg==",
+  "key" : "tlOv4FXHGu7YNczZXWsBz8LKYF5m-t6dEZtiQ71xxCU="
 }

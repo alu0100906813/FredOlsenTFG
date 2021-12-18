@@ -4,6 +4,14 @@ import json
 CONFIG_FILENAME = 'config.json'
 
 class Config:
+  _instance = None
+
+  # https://stackoverflow.com/questions/6760685/creating-a-singleton-in-python
+  def __new__(class_, *args, **kwargs):
+    if not class_._instance:
+        class_._instance = object.__new__(class_, *args, **kwargs)
+    return class_._instance
+
   """
   Se encarga de leer el fichero de configuración, y de cargar los datos de este
   También permite obtener algún dato de la configuración u obtenerlos todos

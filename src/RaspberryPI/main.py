@@ -1,7 +1,5 @@
 
-from time import sleep
 from datetime import datetime
-import json
 
 from brokerConnector import BrokerConnector
 from sense_emu import SenseHat
@@ -99,11 +97,14 @@ def main():
   Los empaqueta en un JSON y los envia al broker
   Esto lo hace de manera indefinida
   """
+  """
   while True:
     data = getJSONData()
     data = mergeDict(data, config.getAll())
     print(json.dumps(data, indent=1))
     broker.publish('NEW_TEST', data)
     sleep(SLEEP_DELAY)
+  """
+  import server
 
 main()

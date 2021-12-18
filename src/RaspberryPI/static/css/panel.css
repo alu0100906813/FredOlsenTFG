@@ -1,0 +1,16 @@
+
+body {
+  align-items: flex-start !important;
+}
+
+#panel {
+  border: 1px solid #ccc;
+  box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+  border-radius: 4px;
+  padding: 0.5rem 2rem;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  background-color: white;
+  margin-top: 2rem;
+}
