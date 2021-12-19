@@ -12,4 +12,4 @@ def deleteSpacesStartEnd(string):
   Elimina los espacios al final y al comienzo de un string
   """
   result = re.search("^\s*(\S*)\s*$", string)
-  return results.group(1)[0]
+  return result.group(1)
