@@ -1,7 +1,7 @@
 
 # "sqlite:///database.db"
 
-from model import QueueTable, Base
+from .model import QueueTable, Base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -19,6 +19,7 @@ class RPIQueue():
     newMessage = QueueTable(msg=msg, id=id)
     self.session.add(newMessage)
     self.session.commit()
+    self.queueLength = self.queueLength + 1
 
   def pop(self):
     row = self.session.query(QueueTable).first()
@@ -26,6 +27,8 @@ class RPIQueue():
       self.session.delete(row)
       self.session.commit()
       row = row.__dict__
+      del row['_sa_instance_state']
+      self.queueLength = self.queueLength - 1 
     return row
 
   def isEmpty(self):

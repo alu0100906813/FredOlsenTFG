@@ -36,7 +36,7 @@ class BrokerConnector:
       return False
 
   def publish(self, topic, msg):
-    if not self.client:
+    if not self.__client:
       if not self.run():
         return False
     newMessage = msg
@@ -45,7 +45,7 @@ class BrokerConnector:
     result = self.__client.publish(topic, newMessage)
     status = result[0]
     if status != 0:
-      print(f"Failed to send message to topic {topic}")
+      #print(f"Failed to send message to topic {topic}")
       return False
     return True
 
@@ -53,5 +53,5 @@ class BrokerConnector:
     self.__connect_mqtt()
     if self.__client:
       self.__client.loop_start()
-      return False
-    return True
+      return True
+    return False

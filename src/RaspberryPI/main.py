@@ -7,9 +7,9 @@ from brokerConnector import BrokerConnector
 from config import Config
 
 from inputs.senseHat import SenseHatController
-#from queue.queue import RPIQueue
+from RPIQueue.RPIQueue import RPIQueue
 
-SLEEP_DELAY = 5.0
+SLEEP_DELAY = 3.0
 
 config = Config()
 
@@ -22,22 +22,26 @@ broker = BrokerConnector({
 })
 broker.run()
 
-#queue = RPIQueue("sqlite:///database.db")
+queue = RPIQueue("sqlite:///database.db")
+
+def publishStoredMessages():
+  for i in range(0, 10): # Cambiar el 10 por variable global o algo
+    if queue.getLength() == 0:
+      break
+    data = queue.pop()
+    if not broker.publish('NEW_TEST', data): # Cambiar new test
+      queue.push(data)
 
 def main():
-  """
-  Obtiene los datos de configuración de las raspberry y los datos de los sensores del SensorHat
-  Los empaqueta en un JSON y los envia al broker
-  Esto lo hace de manera indefinida
-  """
-  import server
+  #import server
   while True:
     data = input.getData()
-    print(json.dumps(data, indent=1))
-    isPublised = broker.publish('NEW_TEST', data)
+    #print(json.dumps(data, indent=1))
+    print(queue.getLength())
+    isPublised = broker.publish('NEW_TEST', data) # Cambiar new test
     if not isPublised:
-      pass
-      #queue.push(data)
+      queue.push(data)
+    publishStoredMessages()
     sleep(SLEEP_DELAY)
 
-#main()
+main()
