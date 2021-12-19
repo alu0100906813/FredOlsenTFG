@@ -7,10 +7,10 @@ from sqlalchemy.orm import sessionmaker
 
 import json
 
-class Queue():
+class RPIQueue():
 
-  def __init__(self):
-    engine = create_engine("sqlite:///database.db")
+  def __init__(self, engineData):
+    engine = create_engine(engineData)
     Base.metadata.create_all(engine)
     self.session = sessionmaker(bind=engine)()
     self.queueLength = self.session.query(QueueTable).count()

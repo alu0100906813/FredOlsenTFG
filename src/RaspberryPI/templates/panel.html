@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Login into IOT</title>
+  <title>Panel de Control</title>
   <meta name="description" content="IOT Panel">
   <link rel="stylesheet" href="static/css/style.css">
   <link rel="stylesheet" href="static/css/panel.css">
@@ -32,6 +32,36 @@
         <span>3</span>
       </div>
     </div>
+    <h1>Configuración del IOT</h1>
+    <form>
+      <p>
+        <label>ID:</label>
+        <input type="text" name="id">
+      </p>
+      <p>
+        <label>Barco:</label>
+        <input type="text" name="ship">
+      </p>
+      <p>
+        <label>Host:</label>
+        <input type="text" name="host">
+      </p>
+      <p>
+        <label>Puerto:</label>
+        <input type="number" name="port" min="1" max="65535">
+      </p>
+      <p>
+        <label>Usuario:</label>
+        <input type="text" name="user">
+      </p>
+      <p>
+        <label>Contraseña:</label>
+        <input type="password" name="password">
+      </p>
+      <div class="center">
+        <button>Guardar Configuración</button>
+      </div>
+    </form>
   </div>
 </body>
 </html>
