@@ -2,43 +2,43 @@
 # Se ha utilizado el tutorial: https://www.emqx.com/en/blog/how-to-use-mqtt-in-python
 
 from paho.mqtt import client as mqtt_client
-
 import json
+
+from singletonMeta import SingletonMeta
 
 DEFAULT_PORT = 1880
 
-class BrokerConnector:
+class BrokerConnector(metaclass=SingletonMeta):
   
   def __init__(self, config = None):
     self.__config = config
     self.__client = None
+    self.__isConnected = False
 
   def setConfig(self, config):
     self.__config = config
 
   def __connect_mqtt(self):
+    result = None
     def on_connect(client, userdata, flags, rc):
-        if rc == 0:
-            print("Connected to MQTT Broker!")
-        else:
-            print("Failed to connect, return code %d\n", rc)
+      self.__isConnected = True
+
+    def on_disconnect(client, userdata, rc):
+      self.__isConnected = False
 
     try:
-      client = mqtt_client.Client(str(self.__config['clientID']))
+      self.__client = mqtt_client.Client(str(self.__config['clientID']))
       if 'username' in self.__config:
         client.username_pw_set(self.__config.username, self.__config.password)
-      client.on_connect = on_connect
-      client.connect(self.__config['host'], int(self.__config['port']))
-      self.__client = client
-      return True
+      self.__client.on_connect = on_connect
+      self.__client.on_disconnect = on_disconnect
+      self.__client.connect(self.__config['host'], int(self.__config['port']))
     except Exception as e:
-      self.client = None
-      return False
+      pass
 
   def publish(self, topic, msg):
-    if not self.__client:
-      if not self.run():
-        return False
+    if not self.__isConnected:
+      return False
     newMessage = msg
     if not isinstance(msg, str): 
       newMessage = json.dumps(msg)
@@ -51,7 +51,7 @@ class BrokerConnector:
 
   def run(self):
     self.__connect_mqtt()
-    if self.__client:
-      self.__client.loop_start()
-      return True
-    return False
+    self.__client.loop_start()
+
+  def brokerIsConnected(self):
+    return self.__isConnected

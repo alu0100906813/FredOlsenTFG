@@ -3,10 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Panel de Control</title>
+  <title>Configuración del IOT</title>
   <meta name="description" content="IOT Panel">
   <link rel="stylesheet" href="static/css/style.css">
   <link rel="stylesheet" href="static/css/panel.css">
+  <script src="static/js/status.js" defer></script>
 </head>
 <body>
   <div id="panel">
@@ -15,53 +16,30 @@
         <h1>Panel de Control</h1>
       </div>
       <div class="col-50 right">
-        <div class="inline">
-          <span>Ultima actualización: </span>
-          <span>Hace 20 segundos</span>
-        </div>
-        <button>Cerrar Sesión</button>
+        <button onclick="location.href='/logout';">Cerrar Sesión</button>
       </div>
     </div>
     <div class="row">
       <div class="col-50">
         <span>Estado: </span>
-        <span>Conectado</span>
+        <span id="brokerStatus">--</span>
       </div>
       <div class="col-50 right">
-        <span>Items en cola: </span>
-        <span>3</span>
+        <span>Paquetes en cola: </span>
+        <span id="queueStatus">--</span>
       </div>
     </div>
-    <h1>Configuración del IOT</h1>
-    <form>
-      <p>
-        <label>ID:</label>
-        <input type="text" name="id">
-      </p>
-      <p>
-        <label>Barco:</label>
-        <input type="text" name="ship">
-      </p>
-      <p>
-        <label>Host:</label>
-        <input type="text" name="host">
-      </p>
-      <p>
-        <label>Puerto:</label>
-        <input type="number" name="port" min="1" max="65535">
-      </p>
-      <p>
-        <label>Usuario:</label>
-        <input type="text" name="user">
-      </p>
-      <p>
-        <label>Contraseña:</label>
-        <input type="password" name="password">
-      </p>
-      <div class="center">
-        <button>Guardar Configuración</button>
+    <div class="row mt-1 mb-2">
+      <div class="col-50">
+        <button onclick="location.href='/config';">Configuración</button>
       </div>
-    </form>
+      <div class="col-50 right">
+        <div class="inline">
+          <span>Ultima actualización: </span>
+          <span id="counter">--</span>
+        </div>
+      </div>
+    </div>
   </div>
 </body>
 </html>

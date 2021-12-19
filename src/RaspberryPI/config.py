@@ -1,16 +1,11 @@
 
 import json
 
+from singletonMeta import SingletonMeta
+
 CONFIG_FILENAME = 'config.json'
 
-class Config:
-  _instance = None
-
-  # https://stackoverflow.com/questions/6760685/creating-a-singleton-in-python
-  def __new__(class_, *args, **kwargs):
-    if not class_._instance:
-        class_._instance = object.__new__(class_, *args, **kwargs)
-    return class_._instance
+class Config(metaclass=SingletonMeta):
 
   """
   Se encarga de leer el fichero de configuración, y de cargar los datos de este
@@ -37,11 +32,15 @@ class Config:
     """
     return self.data[configParam]
 
+  def set(self, configParam, value):
+    """
+    Permite establecer una configuración. Actualiza o crea un nuevo valor
+    """
+    self.data[configParam] = value
+    return self.data[configParam]
+
   def getAll(self):
     """
     Obtiene los valores de toda la configuración
     """
     return self.data.copy()
-
-  def getByKey(self, keys):
-    pass

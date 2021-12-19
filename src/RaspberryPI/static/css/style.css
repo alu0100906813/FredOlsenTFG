@@ -31,6 +31,19 @@ button {
     border-radius: 4px;
     font-weight: bold;
     text-transform: uppercase;
+    cursor: pointer;
+}
+
+#panel {
+  border: 1px solid #ccc;
+  box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+  border-radius: 4px;
+  padding: 0.5rem 2rem;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  background-color: white;
+  margin-top: 2rem;
 }
 
 .center {
@@ -53,4 +66,12 @@ button {
 
 .col-50 {
   width: 50%;
+}
+
+.mt-1 {
+  margin-top: 1rem;
+}
+
+.mb-2 {
+  margin-bottom: 2rem;
 }

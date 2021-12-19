@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Panel de Control</title>
+  <meta name="description" content="IOT Panel">
+  <link rel="stylesheet" href="static/css/style.css">
+  <link rel="stylesheet" href="static/css/panel.css">
+  {% if updated %}
+    <script>alert("Configuración actualizada correctamente")</script>
+  {% endif%}
+</head>
+<body>
+  <div id="panel">
+    <h1>Configuración del IOT</h1>
+    <form method="POST">
+      <p>
+        <label>ID:</label>
+        <input type="text" name="id" value={{config['id']}}>
+      </p>
+      <p>
+        <label>Barco:</label>
+        <input type="text" name="ship" value={{config['ship']}}>
+      </p>
+      <p>
+        <label>Host Broker:</label>
+        <input type="text" name="host" value={{config['host']}}>
+      </p>
+      <p>
+        <label>Puerto Broker:</label>
+        <input type="number" name="port" min="1" max="65535" value={{config['port']}}>
+      </p>
+      <p>
+        <label>Usuario:</label>
+        <input type="text" name="user" value={{config['user']}}>
+      </p>
+      <p>
+        <label>Contraseña:</label>
+        <input type="password" name="password">
+      </p>
+      <div class="center">
+        <button>Guardar Configuración</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
