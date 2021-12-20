@@ -41,11 +41,12 @@ def updateConfig(newConfig):
     if checkIfIsNotEmpty(value) and (configValue in acceptedConfigValues):
       if config.get(configValue) != value: # Solo actualizamos si el valor es diferente, si no, no es diferente
         config.set(configValue, value)
-      if configValue == 'host' or configValue == 'port':
+      if configValue == 'host' or configValue == 'port' or configValue == 'id':
         if config.get(configValue) != newConfig[configValue]:
           hostOrPortUpdated = True
   if hostOrPortUpdated:
     BrokerConnector().reboot()
+  config.saveConfig()
 
 @app.route('/')
 def index():
@@ -95,7 +96,7 @@ def login():
   """
   if 'username' in session:
     if session['username'] is not None:
-      return redirect('login')
+      return redirect('/')
   return render_template('login.html')
 
 @app.route('/login', methods=['POST'])

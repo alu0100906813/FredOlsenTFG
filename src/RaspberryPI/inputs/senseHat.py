@@ -42,7 +42,7 @@ class SenseHatController(InputsTemplate):
       'yaw' : orientation['yaw']
     }
 
-  def __acceleration(self):
+  def __getAcceleration(self):
     """
     Obtiene la aceleración del SensorHat
     En sus tres ejes, x, y, z
@@ -59,10 +59,16 @@ class SenseHatController(InputsTemplate):
     Obtiene todos los valores del SensorHat y los junta en un JSON
     Además, también añade la fecha y hora en la que se han obtenido estos datos
     """
+    orientation = self.__getOrientation()
+    acceleration = self.__getAcceleration()
     return {
         'pressure' : self.__getPressure(),
         'temperature' : self.__getTemperature(),
         'humidity' : self.__getHumidity(),
-        'orientation' : self.__getOrientation(),
-        'acceleration' : self.__acceleration()
+        'accelerationX' : acceleration['x'],
+        'accelerationY' : acceleration['y'],
+        'accelerationZ' : acceleration['z'],
+        'orientationPitch' : orientation['pitch'],
+        'orientationRoll' : orientation['roll'],
+        'orientationYaw' : orientation['yaw']
     }

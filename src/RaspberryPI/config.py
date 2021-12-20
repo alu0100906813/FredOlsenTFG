@@ -44,3 +44,13 @@ class Config(metaclass=SingletonMeta):
     Obtiene los valores de toda la configuración
     """
     return self.data.copy()
+
+  def saveConfig(self):
+    """
+    Guarda la configuración en el archivo de configuración
+    """
+    try:
+      with open(CONFIG_FILENAME, 'w') as file:
+        json.dump(self.data, file)
+    except Exception as e:
+      print("Ocurrió un error al intentar guardar el fichero de configuración", e)

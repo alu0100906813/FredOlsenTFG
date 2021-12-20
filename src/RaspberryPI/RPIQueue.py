@@ -1,7 +1,7 @@
 
 # "sqlite:///database.db"
 
-from sqlalchemy import create_engine, Table, Column, Integer, JSON, MetaData
+from sqlalchemy import create_engine, Table, Column, Integer, JSON, MetaData, String, DateTime
 from sqlalchemy.orm import sessionmaker, declarative_base
 
 from singletonMeta import SingletonMeta
@@ -18,7 +18,10 @@ class QueueTable(Base):
   __tablename__ = 'queuemodel'
 
   id = Column(Integer, primary_key=True)
-  msg = Column(JSON, nullable=False)
+  topic = Column(String, nullable=False)
+  msg = Column(String, nullable=True)
+  ship = Column(String, nullable=False)
+  time = Column(DateTime, nullable=False)
 
 class RPIQueue(metaclass=SingletonMeta):
 
@@ -32,12 +35,12 @@ class RPIQueue(metaclass=SingletonMeta):
     self.session = sessionmaker(bind=engine)()
     self.queueLength = self.session.query(QueueTable).count()
 
-  def push(self, msg, id = None):
+  def push(self, topic, msg, ship, time, id = None):
     """
     Se encarga de poner en la cola el mensaje recibido como parámetro.
     Lo introduce al final de la cola
     """
-    newMessage = QueueTable(msg=msg, id=id)
+    newMessage = QueueTable(topic=topic, msg=msg, ship=ship, time=time, id=id)
     self.session.add(newMessage)
     self.session.commit()
     self.queueLength = self.queueLength + 1

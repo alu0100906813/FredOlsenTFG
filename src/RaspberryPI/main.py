@@ -21,23 +21,24 @@ def publishStoredMessages():
     if queue.getLength() == 0:
       break
     data = queue.pop()
-    if not broker.publish('NEW_TEST', data): # Cambiar new test
-      queue.push(data)
+    if not broker.publish(data['topic'], data['msg'], data['ship'], data['time']): # Cambiar new test
+      queue.push(data['topic'], data['msg'], data['ship'], data['time'])
 
 def main():
   """
   Inicializa el programa. Para ello, obtiene datos de sensores y los envia
   al broker de forma infinita. En caso de que no se envie, los envía a la cola
+  Por cada mensaje se envia: Topic, valor, datetime (Cuando se recogió el dato) y ship
   """
   import server
   while True:
-    data = input.getData()
-    #print(json.dumps(data, indent=1))
-    #print(queue.getLength())
-    if not broker.publish('NEW_TEST', data): # Cambiar new test
-      queue.push(data)
-    publishStoredMessages()
-    sleep(SLEEP_DELAY)
+    data = list(input.getData().items())
+    now = datetime.now()
+    for topicValue in data: # 0 es el Topic, y 1 es el Valor
+      if not broker.publish(topicValue[0], topicValue[1], config.get('ship'), now): # Cambiar new test
+        queue.push(topicValue[0], topicValue[1], config.get('ship'), now)
+      publishStoredMessages()
+      sleep(SLEEP_DELAY)
 
 if __name__ == '__main__':
   config = Config()

@@ -52,7 +52,7 @@ class BrokerConnector(metaclass=SingletonMeta):
     except Exception as e:
       pass
 
-  def publish(self, topic, msg):
+  def publish(self, topic, msg, ship, time):
     """
     Publica un "Topic" hacia el servidor MQTT
     En caso de que no esté conectado el servidor, retorna False
@@ -63,7 +63,7 @@ class BrokerConnector(metaclass=SingletonMeta):
     newMessage = msg
     if not isinstance(msg, str): 
       newMessage = json.dumps(msg)
-    result = self.__client.publish(topic, newMessage)
+    result = self.__client.publish(topic, { 'msg' : newMessage, 'ship' : ship, 'time' : str(time) })
     status = result[0]
     if status != 0:
       #print(f"Failed to send message to topic {topic}")

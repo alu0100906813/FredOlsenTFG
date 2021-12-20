@@ -11,9 +11,9 @@ class SingletonMeta(type):
   _lock: Lock = Lock()
 
   def __call__(cls, *args, **kwargs):
-  """
-  Implementa un patrón Singleton compatible con multihilos
-  """
+    """
+    Implementa un patrón Singleton compatible con multihilos
+    """
     with cls._lock:
       if cls not in cls._instances:
         instance = super().__call__(*args, **kwargs)
