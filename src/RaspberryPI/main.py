@@ -9,6 +9,8 @@ from config import Config
 from inputs.senseHat import SenseHatController
 from RPIQueue import RPIQueue
 
+from server import app
+
 SLEEP_DELAY = 3.0
 
 def publishStoredMessages():
@@ -38,9 +40,9 @@ def main():
       if not broker.publish(topicValue[0], topicValue[1], config.get('ship'), now): # Cambiar new test
         queue.push(topicValue[0], topicValue[1], config.get('ship'), now)
       publishStoredMessages()
-      sleep(SLEEP_DELAY)
+    sleep(SLEEP_DELAY)
 
-if __name__ == '__main__':
+if __name__ == 'main':
   config = Config()
 
   input = SenseHatController()
@@ -53,4 +55,4 @@ if __name__ == '__main__':
   broker.run()
 
   queue = RPIQueue("sqlite:///database.db")
-  main()
+  #main()

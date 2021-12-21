@@ -30,7 +30,7 @@ class RPIQueue(metaclass=SingletonMeta):
     Se encarga de inicializar la cola. Conecta a la base de datos (Local)
     y posteriormente, carga el modelo y compruba cuantos items hay en la cola
     """
-    engine = create_engine(engineData)
+    engine = create_engine(engineData+'?check_same_thread=False')
     Base.metadata.create_all(engine)
     self.session = sessionmaker(bind=engine)()
     self.queueLength = self.session.query(QueueTable).count()

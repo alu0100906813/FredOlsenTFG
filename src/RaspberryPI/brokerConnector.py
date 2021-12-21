@@ -63,7 +63,7 @@ class BrokerConnector(metaclass=SingletonMeta):
     newMessage = msg
     if not isinstance(msg, str): 
       newMessage = json.dumps(msg)
-    result = self.__client.publish(topic, { 'msg' : newMessage, 'ship' : ship, 'time' : str(time) })
+    result = self.__client.publish(topic, json.dumps({ 'msg' : newMessage, 'ship' : ship, 'time' : str(time) }))
     status = result[0]
     if status != 0:
       #print(f"Failed to send message to topic {topic}")

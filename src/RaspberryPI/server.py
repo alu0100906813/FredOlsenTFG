@@ -135,4 +135,5 @@ def getStatus():
   return {'Error' : 'Not logged'}
 
 if __name__ == 'server':
-  Thread(target=lambda: app.run(port=5000,debug=False, use_reloader=False)).start()
+  #Thread(target=lambda: app.run(port=5000,debug=False, use_reloader=False)).start()
+  pass
