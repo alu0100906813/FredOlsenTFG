@@ -1,5 +1,7 @@
 
-from main import app, main
+from threading import Thread
 
-if __name__ == '__main__':
-  app.run(debug=False)
+from main import main
+from server import app
+
+Thread(target=lambda: main()).start()

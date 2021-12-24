@@ -9,8 +9,6 @@ from config import Config
 from inputs.senseHat import SenseHatController
 from RPIQueue import RPIQueue
 
-from server import app
-
 SLEEP_DELAY = 3.0
 
 def publishStoredMessages():
@@ -42,17 +40,15 @@ def main():
       publishStoredMessages()
     sleep(SLEEP_DELAY)
 
-if __name__ == 'main':
-  config = Config()
+config = Config()
 
-  input = SenseHatController()
+input = SenseHatController()
 
-  broker = BrokerConnector({
-    'clientID' : 1,
-    'host' : config.get('host'),
-    'port' : config.get('port')
-  })
-  broker.run()
+broker = BrokerConnector({
+  'clientID' : 1,
+  'host' : config.get('host'),
+  'port' : config.get('port')
+})
+broker.run()
 
-  queue = RPIQueue("sqlite:///database.db")
-  #main()
+queue = RPIQueue("sqlite:///database.db")
