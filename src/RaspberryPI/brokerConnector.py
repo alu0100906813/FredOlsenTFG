@@ -2,6 +2,9 @@
 # Se ha utilizado el tutorial: https://www.emqx.com/en/blog/how-to-use-mqtt-in-python
 
 from paho.mqtt import client as mqtt_client
+
+# max_queued_messages_set(self, queue_size)
+
 import json
 
 from singletonMeta import SingletonMeta
@@ -35,20 +38,13 @@ class BrokerConnector(metaclass=SingletonMeta):
     Para ello, asigna los parámetros de configuración al objeto MQTT
     Y se encarga también de realizar la conexión a este
     """
-    result = None
-    def on_connect(client, userdata, flags, rc):
-      self.__isConnected = True
-
-    def on_disconnect(client, userdata, rc):
-      self.__isConnected = False
-
     try:
       self.__client = mqtt_client.Client(str(self.__config['clientID']))
       if 'username' in self.__config:
         client.username_pw_set(self.__config.username, self.__config.password)
-      self.__client.on_connect = on_connect
       self.__client.on_disconnect = on_disconnect
       self.__client.connect(self.__config['host'], int(self.__config['port']))
+      self.__isConnected = True
     except Exception as e:
       pass
 
@@ -58,15 +54,13 @@ class BrokerConnector(metaclass=SingletonMeta):
     En caso de que no esté conectado el servidor, retorna False
     En caso contrario retorna True
     """
-    if not self.__isConnected:
+    if not self.__isConnected and not self.reconnect():
       return False
     newMessage = msg
     if not isinstance(msg, str): 
       newMessage = json.dumps(msg)
     result = self.__client.publish(topic, json.dumps({ 'msg' : newMessage, 'ship' : ship, 'time' : str(time) }))
-    status = result[0]
-    if status != 0:
-      #print(f"Failed to send message to topic {topic}")
+    if result[0] != 0:
       return False
     return True
 
@@ -86,12 +80,16 @@ class BrokerConnector(metaclass=SingletonMeta):
     self.__client.loop_stop()
     self.__client.disconnect()
 
-  def reboot(self):
+  def reconnect(self):
     """
     Se encarga de reiniciar la conexión con el servidor MQTT
     """
-    self.disconnect()
-    self.run()
+    try:
+      self.__client.reconnect()
+      self.__isConnected = True
+      return True
+    except Exception as e:
+      return False
 
   def brokerIsConnected(self):
     """

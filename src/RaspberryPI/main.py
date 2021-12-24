@@ -9,7 +9,7 @@ from config import Config
 from inputs.senseHat import SenseHatController
 from RPIQueue import RPIQueue
 
-SLEEP_DELAY = 3.0
+SLEEP_DELAY = 1.0
 
 def publishStoredMessages():
   """
@@ -35,10 +35,11 @@ def main():
     data = list(input.getData().items())
     now = datetime.now()
     for topicValue in data: # 0 es el Topic, y 1 es el Valor
-      if not broker.publish(topicValue[0], topicValue[1], config.get('ship'), now): # Cambiar new test
+      if not broker.publish(topicValue[0], topicValue[1], config.get('ship'), now):
         queue.push(topicValue[0], topicValue[1], config.get('ship'), now)
       publishStoredMessages()
     sleep(SLEEP_DELAY)
+    print(queue.getLength()) #CHIVATO
 
 config = Config()
 
