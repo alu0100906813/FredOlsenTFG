@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Configuración del IOT</title>
+  <meta name="description" content="IOT Panel">
+  <link rel="stylesheet" href="static/css/style.css">
+  <link rel="stylesheet" href="static/css/panel.css">
+  <script src="static/js/status.js" defer></script>
+</head>
+<body>
+  <div id="panel">
+    <div class="row">
+      <div class="col-50">
+        <h1>Panel de Control</h1>
+      </div>
+      <div class="col-50 right">
+        <button onclick="location.href='/logout';">Cerrar Sesión</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-50">
+        <span>Estado: </span>
+        <span id="brokerStatus">--</span>
+      </div>
+      <div class="col-50 right">
+        <span>Paquetes en cola: </span>
+        <span id="queueStatus">--</span>
+      </div>
+    </div>
+    <div class="row mt-1 mb-2">
+      <div class="col-50">
+        <button onclick="location.href='/config';">Configuración</button>
+      </div>
+      <div class="col-50 right">
+        <div class="inline">
+          <span>Ultima actualización: </span>
+          <span id="counter">--</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
