@@ -1,0 +1,23 @@
+
+{
+  "brokers" : [
+    {
+      "name" : "kafka-1",
+      "clientID" : "5",
+      "host" : "",
+      "port" : ""
+    },
+    {
+      "name" : "kafka-2",
+      "clientID" : "6",
+      "host" : "",
+      "port" : ""
+    }
+  ],
+  "database" : {
+    "host" : "",
+    "username" : "",
+    "password" : "",
+    "bucket" : ""     
+  }
+}

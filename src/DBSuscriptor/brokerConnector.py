@@ -17,8 +17,9 @@ client_id = '1'
 
 class BrokerConnector():
   
-  def __init__(self):
-    pass
+  def __init__(self, config):
+    self.__config = config
+    self.run()
 
   def connect_mqtt(self) -> mqtt_client:
     def on_connect(client, userdata, flags, rc):
@@ -27,10 +28,10 @@ class BrokerConnector():
         else:
             print("Failed to connect, return code %d\n", rc)
 
-    client = mqtt_client.Client(client_id)
+    client = mqtt_client.Client(int(self.__config['clientID']))
     #client.username_pw_set(username, password)
     client.on_connect = on_connect
-    client.connect(broker, port)
+    client.connect(self.__config['host'], self.__config['port'])
     return client
 
 
