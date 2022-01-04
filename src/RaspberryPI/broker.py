@@ -1,6 +1,8 @@
 
 # https://www.emqx.com/en/blog/how-to-use-mqtt-in-python
 
+import json
+
 from paho.mqtt import client as mqtt_client
 
 class Broker():
@@ -27,7 +29,7 @@ class Broker():
     self.__client.loop_start()
 
   def publish(self, topic, msg):
-    result = self.__client.publish(topic, str(msg))
+    result = self.__client.publish(topic, json.dumps(msg))
     status = result[0] # result: [0, 1]
     if status == 0:
       print(f"Send `{msg}` to topic `{topic}`")

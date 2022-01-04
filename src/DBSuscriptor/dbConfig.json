@@ -2,22 +2,16 @@
 {
   "brokers" : [
     {
-      "name" : "kafka-1",
-      "clientID" : "5",
-      "host" : "",
-      "port" : ""
-    },
-    {
-      "name" : "kafka-2",
-      "clientID" : "6",
-      "host" : "",
-      "port" : ""
+      "name" : "hiveMQ",
+      "clientID" : 5,
+      "host" : "127.0.0.1",
+      "port" : 1883,
+      "bucket" : "Ship1"
     }
   ],
   "database" : {
-    "host" : "",
-    "username" : "",
-    "password" : "",
-    "bucket" : ""     
+    "host" : "127.0.0.1:8086",
+    "token" : "p7qXdelrXCToOHo0pYjbDvs5JR0EpjtoKK_0qCO54ws0Itru11PcIef6EqYrU9O6Fg0epxk8aZdvBWjEVOPh6Q==",
+    "organization" : "FredOlsen"
   }
 }

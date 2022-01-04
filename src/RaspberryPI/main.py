@@ -20,7 +20,7 @@ def main():
     for sensorName in sensorValues:
       broker.publish(
         f"{config['ship']}/{sensorName}",
-        {'value' : sensorValues[sensorName], 'time' : str(datetime.datetime.now())}
+        {"value" : sensorValues[sensorName], "time" : str(datetime.datetime.now())}
       )
 
 main()

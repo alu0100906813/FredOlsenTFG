@@ -5,21 +5,11 @@ from paho.mqtt import client as mqtt_client
 
 ALL_TOPICS = '#'
 
-broker = '127.0.0.1'
-
-port = 1883
-
-topic = ALL_TOPICS
-
-# generate client ID with pub prefix randomly
-client_id = '1'
-
-
 class BrokerConnector():
   
-  def __init__(self, config):
+  def __init__(self, config, databaseInsertFunction):
     self.__config = config
-    self.run()
+    self.__databaseInsertFunction = databaseInsertFunction
 
   def connect_mqtt(self) -> mqtt_client:
     def on_connect(client, userdata, flags, rc):
@@ -28,7 +18,7 @@ class BrokerConnector():
         else:
             print("Failed to connect, return code %d\n", rc)
 
-    client = mqtt_client.Client(int(self.__config['clientID']))
+    client = mqtt_client.Client(str(self.__config['clientID']))
     #client.username_pw_set(username, password)
     client.on_connect = on_connect
     client.connect(self.__config['host'], self.__config['port'])
@@ -37,7 +27,8 @@ class BrokerConnector():
 
   def subscribe(self, client: mqtt_client):
     def on_message(client, userdata, msg):
-      print(f"Received `{msg.payload.decode()}` from `{msg.topic}` topic")
+      #print(f"Received `{msg.payload.decode()}` from `{msg.topic}` topic")
+      self.__databaseInsertFunction(msg.topic, msg.payload.decode(), self.__config['bucket'])
 
     client.subscribe(ALL_TOPICS)
     client.on_message = on_message
