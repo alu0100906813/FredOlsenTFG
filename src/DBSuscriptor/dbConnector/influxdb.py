@@ -3,7 +3,7 @@
 
 from influxdb_client import InfluxDBClient, Point
 from influxdb_client.client.exceptions import InfluxDBError
-from influxdb_client.client.write_api import ASYNCHRONOUS
+from influxdb_client.client.write_api import ASYNCHRONOUS, SYNCHRONOUS
 
 import json
 import re
@@ -49,7 +49,7 @@ class InfluxDB():
             success_callback=callback.success,
             error_callback=callback.error,
             retry_callback=callback.retry,
-            write_options=ASYNCHRONOUS
+            write_options=SYNCHRONOUS
         )
         return
       except Exception as e:

@@ -27,7 +27,7 @@ class BrokerConnector():
 
   def subscribe(self, client: mqtt_client):
     def on_message(client, userdata, msg):
-      #print(f"Received `{msg.payload.decode()}` from `{msg.topic}` topic")
+      print(f"Received `{msg.payload.decode()}` from `{msg.topic}` topic")
       self.__databaseInsertFunction(msg.topic, msg.payload.decode(), self.__config['bucket'])
 
     client.subscribe(ALL_TOPICS)
