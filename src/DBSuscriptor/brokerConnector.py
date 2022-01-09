@@ -15,6 +15,7 @@ class BrokerConnector():
     def on_connect(client, userdata, flags, rc):
         if rc == 0:
             print("Connected to MQTT Broker!")
+            self.subscribe(client)
         else:
             print("Failed to connect, return code %d\n", rc)
 
@@ -36,5 +37,4 @@ class BrokerConnector():
 
   def run(self):
     client = self.connect_mqtt()
-    self.subscribe(client)
     client.loop_forever()

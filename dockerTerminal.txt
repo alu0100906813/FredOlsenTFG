@@ -1,0 +1,2 @@
+sudo docker run -p 8080:8080 -p 1883:1883 hivemq/hivemq4
+sudo docker run -p 8086:8086 -v influxdb2:/var/lib/influxdb2 influxdb:2.0

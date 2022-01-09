@@ -1,4 +1,5 @@
 
+import time
 import datetime
 import json
 
@@ -22,5 +23,6 @@ def main():
         f"{config['ship']}/{sensorName}",
         {"value" : sensorValues[sensorName], "time" : str(datetime.datetime.now())}
       )
+    time.sleep(1.5) # Ralentizamos ya que hay un cuello de botella al insertar en la bbdd
 
 main()
