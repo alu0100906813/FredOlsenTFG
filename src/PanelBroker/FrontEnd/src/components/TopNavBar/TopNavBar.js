@@ -11,7 +11,7 @@ const TopNavBar = (props) => {
       <Navbar.Brand className="me-auto">FredOlsen</Navbar.Brand>
       <Nav>
         {props.tabs.map(tab => {
-          return <Nav.Link onClick={(e) => props.onClick(tab)} className={tab === props.currentTab ? 'active' : ''}>{tab}</Nav.Link>
+          return <Nav.Link key={tab} onClick={(e) => props.onClick(tab)} className={tab === props.currentTab ? 'active' : ''}>{tab}</Nav.Link>
         })}
       </Nav>
       </Container>

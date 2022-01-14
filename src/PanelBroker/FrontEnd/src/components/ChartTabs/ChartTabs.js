@@ -1,10 +1,12 @@
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { GET } from '../../utils/ajax';
+import useInterval from 'react-useinterval';
 
 import Loading from '../Loading/Loading';
 
 import { Row, Col } from 'react-bootstrap';
+import LineChart from '../LineChart/LineChart';
 
 const SHIP_API = '/getAllMetrics';
 
@@ -19,9 +21,9 @@ const MAX_CHART_LENGTH = 10;
 
 const ChartTabs = (props) => {
 
-  const [data, setData] = useState(0);
+  const [data, setData] = useState();
 
-  const savedCallback = useRef();
+  const [iter, setIter] = useState(0);
 
   const parseData = (currentData, recivedData) => {
     for (const key in recivedData) {
@@ -46,40 +48,44 @@ const ChartTabs = (props) => {
   const createCharts = (newData) => {
     let result = [];
     for (const key in newData) {
-      if (newData[key]['value'] === undefined) {
-        result.push(<Row>{createCharts(newData[key])}</Row>)
+      if (!Array.isArray(newData[key])) {
+        result.push(<Row key={key}>{createCharts(newData[key])}</Row>)
       } else {
-        result.push(<Col>{key}</Col>);
+        result.push(
+          <Col key={key}>
+            <>
+              <h2 className="valueName">{key}</h2>
+              <LineChart name={key} data={newData[key]}/>
+            </>
+          </Col>
+        );
       }
     }
     return result;
   }
 
-  const getData = () => {
-    GET(SHIP_API, { params : { ship : props.currentShip } }, (response) => {
-      let newData = data ? Object.assign(data, {}) : {};
-      parseData(newData, response.data);
-      console.log(newData);
-      setData(newData);
-    });
+
+  const getData = (response, newData) => {
+    parseData(newData, response.data);
+    return newData;
   }
 
   useEffect(() => {
-    savedCallback.current = getData;
-  });
-
-  useEffect(() => {
-    const interval = setInterval(() => savedCallback.current(), TIME_TO_RELOAD);
+    const interval = setInterval(() => {
+      GET(SHIP_API, { params : { ship : props.currentShip } }, (response) => {
+        setData(oldData => { return getData(response, oldData ? oldData : {}) });
+        setIter(iter => iter + 1);
+      });
+    }, TIME_TO_RELOAD);
     return (() => {
       clearInterval(interval);
-    })
+    });
   }, []);
 
   if(!data) {
     return <Loading/>;
   } else {
-    return null;
-    //return createCharts(data);
+    return createCharts(data);
   }
 
 };
