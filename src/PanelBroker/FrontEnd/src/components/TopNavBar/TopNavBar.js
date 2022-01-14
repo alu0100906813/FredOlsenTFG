@@ -1,16 +1,18 @@
 
 import { Container, Navbar, Nav } from 'react-bootstrap';
 
-const TopNavBar = () => {
+import './TopNavBar.css';
+
+const TopNavBar = (props) => {
 
   return (
     <Navbar bg="primary" variant="dark">
       <Container>
       <Navbar.Brand className="me-auto">FredOlsen</Navbar.Brand>
       <Nav>
-        <Nav.Link href="#home">Home</Nav.Link>
-        <Nav.Link href="#features">Features</Nav.Link>
-        <Nav.Link href="#pricing">Pricing</Nav.Link>
+        {props.tabs.map(tab => {
+          return <Nav.Link onClick={(e) => props.onClick(tab)} className={tab === props.currentTab ? 'active' : ''}>{tab}</Nav.Link>
+        })}
       </Nav>
       </Container>
     </Navbar>
