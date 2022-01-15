@@ -12,6 +12,13 @@ import {
 
 import { Line } from 'react-chartjs-2';
 
+import { getTimeFromStringDate } from '../../utils/date';
+
+import { capitalize } from '../../utils/string';
+
+//import randomColor from 'randomcolor';
+
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -25,11 +32,14 @@ ChartJS.register(
 const LineChart = (props) => {
 
   const parseData = (data) => {
+    const color = 'rgb(13,110,253)';
     return {
-      labels : data.map(value => value.time),
+      labels : data.map(value => getTimeFromStringDate(value.time)),
       datasets : [{
-        label: props.name,
-        data: data.map(value => value.value)
+        label: capitalize(props.name),
+        data: data.map(value => value.value),
+        borderColor: color,
+        backgroundColor: color
       }]
     }
   }

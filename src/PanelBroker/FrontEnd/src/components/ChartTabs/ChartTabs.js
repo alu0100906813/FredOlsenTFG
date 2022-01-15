@@ -1,12 +1,15 @@
 
+import './ChartTabs.css'
+
 import { useEffect, useState } from 'react';
 import { GET } from '../../utils/ajax';
-import useInterval from 'react-useinterval';
 
 import Loading from '../Loading/Loading';
 
 import { Row, Col } from 'react-bootstrap';
 import LineChart from '../LineChart/LineChart';
+
+import { capitalize } from '../../utils/string';
 
 const SHIP_API = '/getAllMetrics';
 
@@ -49,12 +52,17 @@ const ChartTabs = (props) => {
     let result = [];
     for (const key in newData) {
       if (!Array.isArray(newData[key])) {
-        result.push(<Row key={key}>{createCharts(newData[key])}</Row>)
+        result.push(
+          <Row key={key}>
+            <h2 className="valueName bg-light">{capitalize(key)}</h2>
+            {createCharts(newData[key])}
+          </Row>
+        )
       } else {
         result.push(
           <Col key={key}>
             <>
-              <h2 className="valueName">{key}</h2>
+              <h2 className="valueName bg-light">{capitalize(key)}</h2>
               <LineChart name={key} data={newData[key]}/>
             </>
           </Col>
