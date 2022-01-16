@@ -16,6 +16,11 @@ import { getTimeFromStringDate } from '../../utils/date';
 
 import { capitalize } from '../../utils/string';
 
+import './lineChart.css';
+
+import { BiTime } from 'react-icons/bi';
+import { MdOutlineSensors } from 'react-icons/md';
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -43,7 +48,15 @@ const LineChart = (props) => {
     }
   }
 
-  return <Line data={parseData(props.data)}/>;
+  return (
+    <>
+      <Line data={parseData(props.data)}/>
+      <div className='lastUpdateAndValue bg-primary'>
+        <div><BiTime/> Last Update: {props.data.length ? getTimeFromStringDate(props.data[props.data.length - 1]['time']) : '--'}</div>
+        <div><MdOutlineSensors/> Value: {props.data.length ? props.data[props.data.length - 1]['value'] : '--'}</div>
+      </div>
+    </>
+  );
 
 };
 

@@ -1,0 +1,14 @@
+
+.lastUpdateAndValue {
+  margin-top: 1rem;
+  color: white;
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+.lastUpdateAndValue:nth-child(n) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}

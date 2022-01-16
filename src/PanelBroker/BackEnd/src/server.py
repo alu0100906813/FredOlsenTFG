@@ -44,6 +44,12 @@ def handle_mqtt_message(client, userdata, msg):
 def getShips():
   return json.dumps(list(mqtt_data.keys()))
 
+@app.route('/getShipPosition')
+def getShipPosition():
+  ship = request.args.get('ship')
+  if ship in mqtt_data and 'lat' in mqtt_data and 'lon' in mqtt_data:
+    return {"lat" : mqtt_data[ship]["lat"], "lon" : mqtt_data[ship]["lon"]}
+  return {}
 
 @app.route('/getMetrics')
 def getMetrics():
