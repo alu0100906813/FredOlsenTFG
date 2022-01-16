@@ -38,8 +38,10 @@ const LineChart = (props) => {
       datasets : [{
         label: capitalize(props.name),
         data: data.map(value => value.value),
+        fill: true,
+        backgroundColor: color,
         borderColor: color,
-        backgroundColor: color
+        tension: 0.3,
       }]
     }
   }
