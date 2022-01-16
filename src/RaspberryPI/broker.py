@@ -12,6 +12,7 @@ class Broker():
     self.__config = config
     self.__connect()
 
+
   def __connect(self):
     def on_connect(client, userdata, flags, rc):
       if rc == 0:
@@ -22,11 +23,18 @@ class Broker():
     self.__client = mqtt_client.Client(str(self.__config['clientID']))
     #self.__client.username_pw_set(username, password)
     self.__client.on_connect = on_connect
-    self.__client.connect(self.__config['host'], self.__config['port'])
+    while True:
+      try:
+        self.__client.connect(self.__config['host'], self.__config['port'])
+        return
+      except Exception as e:
+        print("Error al intentar conectar al broker: ", e)
+
 
   def __run(self):
     self.__connect()
     self.__client.loop_start()
+
 
   def publish(self, topic, msg):
     result = self.__client.publish(topic, json.dumps(msg))

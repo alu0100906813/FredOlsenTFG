@@ -8,7 +8,9 @@ const TopNavBar = (props) => {
   return (
     <Navbar bg="primary" variant="dark">
       <Container>
-      <Navbar.Brand className="me-auto">FredOlsen</Navbar.Brand>
+        <Nav.Link href="/">
+          <Navbar.Brand className="me-auto">FredOlsen</Navbar.Brand>
+        </Nav.Link>
       <Nav>
         {props.tabs.map(tab => {
           return <Nav.Link key={tab} onClick={(e) => props.onClick(tab)} className={tab === props.currentTab ? 'active' : ''}>{tab}</Nav.Link>

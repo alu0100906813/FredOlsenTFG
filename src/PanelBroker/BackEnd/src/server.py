@@ -6,14 +6,12 @@ import threading
 from flask import Flask, request
 from flask_mqtt import Mqtt
 
-#from brokerConnector import BrokerConnector
+brokerConfig = None
 
-brokerConfig = {
-  'host' : '192.168.1.59',
-  'clientID' : '48394',
-  'port' : 1883,
-  'topic' : '#'
-}
+try:
+  brokerConfig = json.loads(open('config.json').read())
+except Exception as e:
+  print("Error al intentar abrir el fichero de configuración: ", e)
 
 app = Flask(__name__)
 app.config['MQTT_BROKER_URL'] = brokerConfig['host']
@@ -24,9 +22,6 @@ app.config['MQTT_REFRESH_TIME'] = 1.0  # refresh time in seconds
 mqtt = Mqtt(app)
 
 mqtt_data = dict()
-
-#brokerConnectorInstance = BrokerConnector(brokerConfig)
-#threading.Thread(target=brokerConnectorInstance.run, args=()).start()
 
 
 @mqtt.on_connect()

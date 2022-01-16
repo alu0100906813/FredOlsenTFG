@@ -1,0 +1,14 @@
+
+.changeButton {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  border: 1px solid #00000045;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.changeButton svg {
+  margin-right: 0.5rem;
+}

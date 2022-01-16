@@ -11,6 +11,9 @@ import Loading from './components/Loading/Loading';
 import ChartTabs from './components/ChartTabs/ChartTabs';
 
 import { Container } from 'react-bootstrap';
+import { ChangeButton, CHART, MAP } from './components/ChangeButton/ChangeButton';
+
+import Map from './components/Map/Map';
 
 const SHIPS_LIST_API = '/getShips';
 
@@ -18,6 +21,7 @@ function App() {
 
   const [shipsNames, setShipsNames] = useState();
   const [currentShip, setCurrentShip] = useState();
+  const [mapOrChart, setMapOrChart] = useState(CHART);
 
   useEffect(() => {
     GET(SHIPS_LIST_API, {}, (response) => {
@@ -28,6 +32,10 @@ function App() {
 
   const changeTab = (tabName) => {
     setCurrentShip(tabName);
+  }
+
+  const switchMapOrChart = () => {
+    setMapOrChart(mapOrChart === CHART ? MAP : CHART);
   }
 
   if(!currentShip) {
@@ -41,8 +49,12 @@ function App() {
           <TopNavBar tabs={shipsNames} onClick={changeTab} currentTab={currentShip}/>
         </div>
         <Container style={{'paddingTop' : '1rem'}}>
-          <ChartTabs currentShip={currentShip}/>
+          {mapOrChart === CHART ? 
+          <ChartTabs currentShip={currentShip}/> : 
+          <Map shipName={currentShip}/>
+          }
         </Container>
+        <ChangeButton onClick={switchMapOrChart} selected={mapOrChart}/>
       </>
     );
   }

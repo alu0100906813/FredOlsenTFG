@@ -22,7 +22,11 @@ class BrokerConnector():
     client = mqtt_client.Client(str(self.__config['clientID']))
     #client.username_pw_set(username, password)
     client.on_connect = on_connect
-    client.connect(self.__config['host'], self.__config['port'])
+    while True:
+      try:
+        client.connect(self.__config['host'], self.__config['port'])
+      except Exception as e:
+        print("Error al intentar conectar al broker: ", e)
     return client
 
 

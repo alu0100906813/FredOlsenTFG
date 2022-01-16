@@ -16,9 +16,6 @@ import { getTimeFromStringDate } from '../../utils/date';
 
 import { capitalize } from '../../utils/string';
 
-//import randomColor from 'randomcolor';
-
-
 ChartJS.register(
   CategoryScale,
   LinearScale,
