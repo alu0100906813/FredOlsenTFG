@@ -1,5 +1,8 @@
 
 export const getTimeFromStringDate = (stringDate) => {
   let date = new Date(stringDate);
-  return `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+  const addZeroIfLess10 = (numberToAdd) => {
+    return numberToAdd <= 9 ? '0' + numberToAdd : numberToAdd;
+  }
+  return `${date.getHours()}:${addZeroIfLess10(date.getMinutes())}:${addZeroIfLess10(date.getSeconds())}`;
 };

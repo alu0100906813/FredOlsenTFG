@@ -9,6 +9,8 @@ import { Row, Col } from 'react-bootstrap';
 import LineChart from '../LineChart/LineChart';
 
 import { capitalize } from '../../utils/string';
+import { getTimeFromStringDate } from '../../utils/date';
+import { truncDecimals } from '../../utils/number';
 
 import socketIOClient from "socket.io-client";
 
@@ -24,10 +26,10 @@ const MAX_CHART_LENGTH = 10;
 const ChartTabs = (props) => {
 
   const [data, setData] = useState();
-
-  const [iter, setIter] = useState(0);
+  const [forceUpdate, setForceUpdate] = useState();
 
   const parseData = (recivedData, currentData) => {
+    let needUpdate = false;
     for (const key in recivedData) {
       if (recivedData[key]['value'] === undefined) {
         if(currentData[key] === undefined) {
@@ -37,12 +39,16 @@ const ChartTabs = (props) => {
       } else {
         if (currentData[key] === undefined) {
           currentData[key] = [];
+          needUpdate = true;
         }
         currentData[key].push(recivedData[key])
         if(currentData[key].length > MAX_CHART_LENGTH) {
           currentData[key].shift();
         }
       }
+    }
+    if (needUpdate) {
+      setForceUpdate(lastForceUpdate => !lastForceUpdate);
     }
     return currentData;
   };
@@ -63,7 +69,7 @@ const ChartTabs = (props) => {
           <Col key={key}>
             <>
               <h2 className="valueName bg-light">{capitalize(key)}</h2>
-              <LineChart name={key} data={newData[key]} onRefresh={(chart) => getNewValues(key, chart)}/>
+              <LineChart name={key} data={newData[key]} onRefresh={(chart, timeRef, valueRef) => getNewValues(key, chart, timeRef, valueRef)}/>
             </>
           </Col>
         );
@@ -72,15 +78,20 @@ const ChartTabs = (props) => {
     return result;
   }
 
-  const getNewValues = (topicName, chart) => {
-    // FALTA POR IMPLEMENTAR
-    const now = Date.now();
-    chart.data.datasets.forEach(dataset => {
-      dataset.data.push({
-        x: now,
-        y: 20
+  const getNewValues = (topicName, chart, timeRef, valueRef) => {
+    const lastData = data[topicName].slice();
+    data[topicName] = [];
+    lastData.forEach(item => {
+      const time = new Date(item.time);
+      chart.data.datasets[0].data.push({
+        x : time.getTime(),
+        y : item.value
       });
-    });
+      if(timeRef && valueRef) {
+        timeRef.current.innerHTML = getTimeFromStringDate(time);
+        valueRef.current.innerHTML = typeof item.value === 'number' ? truncDecimals(item.value) : item.value; 
+      }
+    })
   }
 
 
@@ -88,7 +99,6 @@ const ChartTabs = (props) => {
     const socket = socketIOClient(ENDPOINT);
     socket.on(props.currentShip , data => {
       setData(oldData => parseData(data, oldData ? oldData : {}));
-      //setIter(iter => iter + 1); /* Soluciona un error, que el estado setData no actualiza (Hay que revisarlo)*/
     });
   }, []);
 

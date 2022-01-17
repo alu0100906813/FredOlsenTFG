@@ -10,16 +10,18 @@ import {
   Legend,
 } from 'chart.js'
 
+import { useRef} from 'react';
+
 import { Line } from 'react-chartjs-2';
+
+import { BiTime } from 'react-icons/bi';
+import { MdOutlineSensors } from 'react-icons/md';
 
 import { getTimeFromStringDate } from '../../utils/date';
 
 import { capitalize } from '../../utils/string';
 
 import './lineChart.css';
-
-import { BiTime } from 'react-icons/bi';
-import { MdOutlineSensors } from 'react-icons/md';
 
 import ChartStreaming from 'chartjs-plugin-streaming';
 import 'chartjs-adapter-moment';
@@ -38,17 +40,11 @@ ChartJS.register(
 
 const LineChart = (props) => {
 
+  const timeRef = useRef();
+  const valueRef = useRef();
+
   const onRefresh = (chart) => {
-    props.onRefresh(chart);
-    /*
-    const now = Date.now();
-    chart.data.datasets.forEach(dataset => {
-      dataset.data.push({
-        x: now,
-        y: 20
-      });
-    });
-    */
+    props.onRefresh(chart, timeRef, valueRef);
   }
 
   const options = {
@@ -93,9 +89,9 @@ const LineChart = (props) => {
     <>
       <Line data={parseData(props.data)} options={options}/>
       <div className='lastUpdateAndValue bg-primary'>
-        <div><BiTime/> Last Update: {props.data.length ? getTimeFromStringDate(props.data[props.data.length - 1]['time']) : '--'}</div>
-        <div><MdOutlineSensors/> Value: {props.data.length ? props.data[props.data.length - 1]['value'] : '--'}</div>
-      </div>
+        <div><BiTime/> Last Update: <span ref={timeRef}>--</span></div>
+        <div><MdOutlineSensors/> Value: <span ref={valueRef}>--</span></div>
+    </div>
     </>
   );
 
