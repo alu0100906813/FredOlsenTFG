@@ -35,7 +35,23 @@ ChartJS.register(
   ChartStreaming
 )
 
-const options = {
+
+const LineChart = (props) => {
+
+  const onRefresh = (chart) => {
+    props.onRefresh(chart);
+    /*
+    const now = Date.now();
+    chart.data.datasets.forEach(dataset => {
+      dataset.data.push({
+        x: now,
+        y: 20
+      });
+    });
+    */
+  }
+
+  const options = {
     scales: {
       x: {
         type: 'realtime',
@@ -43,6 +59,7 @@ const options = {
           duration: 20000,
           refresh: 1000,
           delay: 2000,
+          onRefresh : onRefresh
         }
       },
       y: {
@@ -56,8 +73,6 @@ const options = {
       intersect: false
     }
   }
-
-const LineChart = (props) => {
 
   const parseData = (data) => {
     const color = 'rgb(13,110,253)';

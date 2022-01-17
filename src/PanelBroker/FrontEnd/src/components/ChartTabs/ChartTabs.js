@@ -63,7 +63,7 @@ const ChartTabs = (props) => {
           <Col key={key}>
             <>
               <h2 className="valueName bg-light">{capitalize(key)}</h2>
-              <LineChart name={key} data={newData[key]}/>
+              <LineChart name={key} data={newData[key]} onRefresh={(chart) => getNewValues(key, chart)}/>
             </>
           </Col>
         );
@@ -72,12 +72,23 @@ const ChartTabs = (props) => {
     return result;
   }
 
+  const getNewValues = (topicName, chart) => {
+    // FALTA POR IMPLEMENTAR
+    const now = Date.now();
+    chart.data.datasets.forEach(dataset => {
+      dataset.data.push({
+        x: now,
+        y: 20
+      });
+    });
+  }
+
 
   useEffect(() => {
     const socket = socketIOClient(ENDPOINT);
     socket.on(props.currentShip , data => {
       setData(oldData => parseData(data, oldData ? oldData : {}));
-      setIter(iter => iter + 1); /* Soluciona un error, que el estado setData no actualiza (Hay que revisarlo)*/
+      //setIter(iter => iter + 1); /* Soluciona un error, que el estado setData no actualiza (Hay que revisarlo)*/
     });
   }, []);
 
