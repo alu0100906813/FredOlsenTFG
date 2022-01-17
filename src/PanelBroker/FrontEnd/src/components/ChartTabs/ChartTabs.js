@@ -2,7 +2,6 @@
 import './ChartTabs.css'
 
 import { useEffect, useState } from 'react';
-import { GET } from '../../utils/ajax';
 
 import Loading from '../Loading/Loading';
 
@@ -11,9 +10,9 @@ import LineChart from '../LineChart/LineChart';
 
 import { capitalize } from '../../utils/string';
 
-const SHIP_API = '/getAllMetrics';
+import socketIOClient from "socket.io-client";
 
-const TIME_TO_RELOAD = 2000; // In seconds
+const ENDPOINT = "http://127.0.0.1:5000";
 
 const MAX_CHART_LENGTH = 10;
 
@@ -28,7 +27,7 @@ const ChartTabs = (props) => {
 
   const [iter, setIter] = useState(0);
 
-  const parseData = (currentData, recivedData) => {
+  const parseData = (recivedData, currentData) => {
     for (const key in recivedData) {
       if (recivedData[key]['value'] === undefined) {
         if(currentData[key] === undefined) {
@@ -45,6 +44,7 @@ const ChartTabs = (props) => {
         }
       }
     }
+    return currentData;
   };
   
 
@@ -73,22 +73,14 @@ const ChartTabs = (props) => {
   }
 
 
-  const getData = (response, newData) => {
-    parseData(newData, response.data);
-    return newData;
-  }
-
   useEffect(() => {
-    const interval = setInterval(() => {
-      GET(SHIP_API, { params : { ship : props.currentShip } }, (response) => {
-        setData(oldData => { return getData(response, oldData ? oldData : {}) });
-        setIter(iter => iter + 1);
-      });
-    }, TIME_TO_RELOAD);
-    return (() => {
-      clearInterval(interval);
+    const socket = socketIOClient(ENDPOINT);
+    socket.on(props.currentShip , data => {
+      setData(oldData => parseData(data, oldData ? oldData : {}));
+      setIter(iter => iter + 1); /* Soluciona un error, que el estado setData no actualiza (Hay que revisarlo)*/
     });
   }, []);
+
 
   if(!data) {
     return <Loading/>;

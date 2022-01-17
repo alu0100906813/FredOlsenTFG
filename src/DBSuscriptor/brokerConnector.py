@@ -25,6 +25,7 @@ class BrokerConnector():
     while True:
       try:
         client.connect(self.__config['host'], self.__config['port'])
+        break
       except Exception as e:
         print("Error al intentar conectar al broker: ", e)
     return client

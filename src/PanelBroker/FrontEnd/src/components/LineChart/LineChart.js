@@ -21,6 +21,9 @@ import './lineChart.css';
 import { BiTime } from 'react-icons/bi';
 import { MdOutlineSensors } from 'react-icons/md';
 
+import ChartStreaming from 'chartjs-plugin-streaming';
+import 'chartjs-adapter-moment';
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -28,8 +31,31 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  ChartStreaming
 )
+
+const options = {
+    scales: {
+      x: {
+        type: 'realtime',
+        realtime: {
+          duration: 20000,
+          refresh: 1000,
+          delay: 2000,
+        }
+      },
+      y: {
+        title: {
+          display: true,
+          text: 'Value'
+        }
+      }
+    },
+    interaction: {
+      intersect: false
+    }
+  }
 
 const LineChart = (props) => {
 
@@ -50,7 +76,7 @@ const LineChart = (props) => {
 
   return (
     <>
-      <Line data={parseData(props.data)}/>
+      <Line data={parseData(props.data)} options={options}/>
       <div className='lastUpdateAndValue bg-primary'>
         <div><BiTime/> Last Update: {props.data.length ? getTimeFromStringDate(props.data[props.data.length - 1]['time']) : '--'}</div>
         <div><MdOutlineSensors/> Value: {props.data.length ? props.data[props.data.length - 1]['value'] : '--'}</div>
