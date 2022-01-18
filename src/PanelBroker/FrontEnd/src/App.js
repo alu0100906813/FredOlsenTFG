@@ -14,6 +14,7 @@ import { Container } from 'react-bootstrap';
 import { ChangeButton, CHART, MAP } from './components/ChangeButton/ChangeButton';
 
 import Map from './components/Map/Map';
+import BottomNavBar from './components/BottomNavBar/BottomNavBar';
 
 const SHIPS_LIST_API = '/getShips';
 
@@ -55,6 +56,9 @@ function App() {
           }
         </Container>
         <ChangeButton onClick={switchMapOrChart} selected={mapOrChart}/>
+        <div className='content'>
+          <BottomNavBar/>
+        </div>
       </>
     );
   }

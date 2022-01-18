@@ -14,17 +14,29 @@ import { truncDecimals } from '../../utils/number';
 
 import socketIOClient from "socket.io-client";
 
-const ENDPOINT = "http://127.0.0.1:5000";
-
-const MAX_CHART_LENGTH = 10;
+/**
+ * Contiene el punto donde se va a conectar el socket
+ */
+const ENDPOINT = ":5000";
 
 /*
  Para lograr hacer los intervalos se ha usado:
  https://codesandbox.io/s/3499qqr565?file=/src/index.js
 */
 
+/**
+ * Separados entre los topics del MQTT
+ * Recordemos que el MQTT solo puede mandar un topic por mensaje
+ * Por lo tanto: S1/Bodega/Aceleracion/X
+ * Vemos 4 tipos de variables separadas por "/"
+ */
 const TOPIC_SEPARATOR = '/';
 
+/**
+ * Contiene la página de gráficas que muestra las gráficas del barco seleccionado
+ * @param {Object} props 
+ * @returns 
+ */
 const ChartTabs = (props) => {
 
   const [data, setData] = useState();
@@ -60,10 +72,7 @@ const ChartTabs = (props) => {
           currentData[key] = [];
           needUpdate = true;
         }
-        currentData[key].push(recivedData[key])
-        if(currentData[key].length > MAX_CHART_LENGTH) {
-          currentData[key].shift();
-        }
+        currentData[key].push(recivedData[key]);
       }
     }
     if (needUpdate) {
