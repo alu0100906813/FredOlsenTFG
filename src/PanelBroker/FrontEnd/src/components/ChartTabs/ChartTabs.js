@@ -34,14 +34,39 @@ const TOPIC_SEPARATOR = '/';
 
 /**
  * Contiene la página de gráficas que muestra las gráficas del barco seleccionado
- * @param {Object} props 
- * @returns 
+ * @param {Object} props Propiedades del componente
+ * - currentShip: El barco actual donde queremos ver las gráficas
+ * @returns {JSX} Componente renderizado
  */
 const ChartTabs = (props) => {
 
+  /**
+   * Contiene los datos que se va a mostrar en las gráficas
+   * Estos se van vaciando según se van mostrando los valores en la gráfica
+   * Y se van llenando a través de un socket conectado al backend
+   */
   const [data, setData] = useState();
+
+  /**
+   * Al actualizar el estado anterior Data, con el setData este no renderiza el componente
+   * Tampoco queremos que haga esto, porque si no, no muestra correctamente las gráficas
+   * Para ello, forzamos el renderizado utilizando este estado que es como un comodin
+   * Es necesario actualizar cuando llega del backend datos de un sensor que no estaba registrado previamente
+   * porque si no, no se genera la gráfica
+   */
   const [forceUpdate, setForceUpdate] = useState();
 
+  /**
+   * Parsea los datos recividos por el backend
+   * Ej. ubicacion/sensorA/opcionA lo convierte a:
+   * {
+   *  ubicacion/sensorA : {
+   *    opcionA : valor
+   *  }
+   * }
+   * @param {Object} recivedData Datos recibidos del socker. Estos son topic, valor y time
+   * @returns {Object} Objetos recibidos anteriormente y correctamente parseados
+   */
   const parsedRecivedData = (recivedData) => {
     if(Object.keys(recivedData).length === 0) {
       return recivedData;
@@ -59,14 +84,23 @@ const ChartTabs = (props) => {
     return newData;
   }
 
-  const parseData = (recivedData, currentData) => {
+  /**
+   * Guarda los datos recibidos del servidor en el objeto de datos
+   * Se encarga de verificar si la key del sensor ya existe en el objeto
+   * Y guarda los valores de cada uno de estos en un array
+   * Este array se va vaciando según se van mostrando los valores en una gráfica
+   * @param {Object} recivedData Datos recibidos del socker y ya parseados correctamente
+   * @param {Object} currentData Datos que ya se encuentran guardados en el componente
+   * @returns {Object} Nuevos datos que se van a guardar en el estado del componente
+   */
+  const saveRecivedData = (recivedData, currentData) => {
     let needUpdate = false;
     for (const key in recivedData) {
       if (recivedData[key]['value'] === undefined) {
         if(currentData[key] === undefined) {
           currentData[key] = {};
         }
-        parseData(recivedData[key], currentData[key]);
+        saveRecivedData(recivedData[key], currentData[key]);
       } else {
         if (currentData[key] === undefined) {
           currentData[key] = [];
@@ -81,6 +115,12 @@ const ChartTabs = (props) => {
     return currentData;
   };
   
+  /**
+   * Obtiene el topic del sensor, y muestra el nombre de este correctamente en la cabecera de la gráfica
+   * Ej. emulator/sensorA Lo transforma a Emulator SensorA
+   * @param {String} topicName El Topic recibido por el sensor
+   * @returns {String} Nombre a mostrar
+   */
   const generateChartName = (topicName) => {
     let topics = topicName.split(TOPIC_SEPARATOR);
     if(topics.length >= 3) {
@@ -90,6 +130,16 @@ const ChartTabs = (props) => {
     return topics.join(" ");
   };
 
+  /**
+   * Genera cada una de las gráficas
+   * Tener en cuenta, que podemos tener subgráficas
+   * Por ejemplo, la aceleración tiene los componentes X, Y y Z.
+   * Por lo tanto, tendremos que mostrar tres gráficas dentro de aceleración
+   * Esto hace que sea recursiva.
+   * @param {Object} newData Contiene los datos a mostrar en la gráfica
+   * @param {String} topicName El nombre actual del topic. Cada vez que la función se llama a si misma, este se amplia
+   * @returns {Array} Contiene cada una de las gráficas o subgráficas
+   */
   const createCharts = (newData, topicName) => {
     let result = [];
     for (const key in newData) {
@@ -113,6 +163,7 @@ const ChartTabs = (props) => {
     }
     return result;
   }
+
 
   const getNewValues = (topicName, chart, timeRef, valueRef) => {
     const topics = topicName.split(TOPIC_SEPARATOR);
@@ -144,7 +195,7 @@ const ChartTabs = (props) => {
     const socket = socketIOClient(ENDPOINT);
     socket.on(props.currentShip , data => {
       const recivedData = parsedRecivedData(data);
-      setData(oldData => parseData(recivedData, oldData ? oldData : {}));
+      setData(oldData => saveRecivedData(recivedData, oldData ? oldData : {}));
     });
   }, []);
 
