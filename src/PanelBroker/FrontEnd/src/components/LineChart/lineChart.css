@@ -12,3 +12,9 @@
   align-items: center;
   justify-content: center;
 }
+
+.lastSpan {
+  background-color: #0000008c;
+  padding: 0.1rem;
+  border-radius: 4px
+}

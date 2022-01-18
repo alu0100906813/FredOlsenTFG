@@ -89,8 +89,8 @@ const LineChart = (props) => {
     <>
       <Line data={parseData(props.data)} options={options}/>
       <div className='lastUpdateAndValue bg-primary'>
-        <div><BiTime/> Last Update: <span ref={timeRef}>--</span></div>
-        <div><MdOutlineSensors/> Value: <span ref={valueRef}>--</span></div>
+        <div><BiTime/> Last Update: <span ref={timeRef} className='lastSpan'>--</span></div>
+        <div><MdOutlineSensors/> Last Value: <span ref={valueRef} className='lastSpan'>--</span></div>
     </div>
     </>
   );

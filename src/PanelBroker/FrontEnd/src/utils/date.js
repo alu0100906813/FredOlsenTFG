@@ -4,5 +4,5 @@ export const getTimeFromStringDate = (stringDate) => {
   const addZeroIfLess10 = (numberToAdd) => {
     return numberToAdd <= 9 ? '0' + numberToAdd : numberToAdd;
   }
-  return `${date.getHours()}:${addZeroIfLess10(date.getMinutes())}:${addZeroIfLess10(date.getSeconds())}`;
+  return `${addZeroIfLess10(date.getHours())}:${addZeroIfLess10(date.getMinutes())}:${addZeroIfLess10(date.getSeconds())}`;
 };
