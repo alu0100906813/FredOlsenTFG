@@ -65,11 +65,12 @@ def handle_mqtt_message(client, userdata, msg):
   global mqtt_data
   topics = re.findall('(\w+)', msg.topic)
   mqtt_data = dict()
+  #print(msg.topic, msg.payload.decode())
   for topic in topics[:-1]:
     if not topic in mqtt_data:
       mqtt_data[topic] = dict()
     mqtt_data = mqtt_data[topic]
-  mqtt_data[topics[-1]] = json.loads(msg.payload.decode())
+  mqtt_data['/'.join(topics[1:])] = json.loads(msg.payload.decode())
   global Ships
   if topics[0] not in Ships:
     Ships.append(topics[0])
