@@ -2,7 +2,7 @@
 {
   "clientID" : 1239,
   "ship" : "S1",
-  "host" : "192.168.1.52",
+  "host" : "192.168.1.45",
   "port" : 1883,
-  "place" : "RPIZeroMulti"
+  "place" : "Emulator"
 }

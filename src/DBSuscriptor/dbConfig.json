@@ -4,14 +4,14 @@
     {
       "name" : "hiveMQ",
       "clientID" : 5,
-      "host" : "192.168.1.38",
+      "host" : "192.168.1.58",
       "port" : 1883,
       "bucket" : "Ships"
     }
   ],
   "database" : {
-    "host" : "192.168.1.38:8086",
-    "token" : "StW2p6rNxhayzaGZ93aS-QA0GvR8WTwd9xAOXTCXfWDKcjaiWGCKEjdJSPj8kjCJN6I3azFRW8ApTDQShYPjkw==",
+    "host" : "192.168.1.57:8086",
+    "token" : "5Ey25J2SwKV8-gwG05alYzshsr3dyxiy03_e0yzpYi0_GXTjHh0opgZGBD1cwCPgM1kF_DkXou5oP-JmWBOKfQ==",
     "organization" : "FredOlsen"
   }
 }

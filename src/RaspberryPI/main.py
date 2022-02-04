@@ -4,17 +4,19 @@ import datetime
 import json
 
 from broker import Broker
-#from inputs.senseHat import SenseHatController
-#from inputs.bme68x import BME68X
-from inputs.mics6813 import Mics6813
-from inputs.sgp30 import Sgp30
+from inputs.senseHat import SenseHatController
+#from inputs.bme680 import BME680
+#from inputs.mics6813 import Mics6813
+#from inputs.sgp30 import Sgp30
 
 config = None
 
 with open('config.json', 'r') as jsonFile:
   config = json.load(jsonFile)
 
-inputs = [Mics6813(), Sgp30()]
+inputs = [SenseHatController()] #Mics6813(), Sgp30(), BME680
+
+times = [{} for i in range(0, len(inputs))]
 
 broker = Broker(config)
 

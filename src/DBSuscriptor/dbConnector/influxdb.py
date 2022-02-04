@@ -12,7 +12,7 @@ from .dbConnector import DBConnector
 
 SEPARATE_TOPICS = '(\w+)'
 
-
+BATCH_SIZE = 100000
 
 class BatchingCallback(object):
 
@@ -49,7 +49,7 @@ class InfluxDB():
             success_callback=callback.success,
             error_callback=callback.error,
             retry_callback=callback.retry,
-            write_options=ASYNCHRONOUS
+            write_options=SYNCHRONOUS
         )
         return
       except Exception as e:
@@ -61,4 +61,4 @@ class InfluxDB():
     return Point("".join(topicValues[1:])).tag('IOD_ID', topicValues[0]).field('value', mqttMessageJSON['value']).time(mqttMessageJSON['time'])
 
   def sendData(self, topic, message, bucket):
-    self.__writeAPI.write(bucket=bucket, record=self.__parse(topic, message))
+    self.__writeAPI.write(bucket=bucket, batch_size=BATCH_SIZE, protocol='line', record=self.__parse(topic, message))
