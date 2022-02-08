@@ -35,7 +35,7 @@ def main():
         {"value" : sensorValues[sensorName], "time" : str(datetime.datetime.utcnow())}
       )
       """
-      database.insertData("SENSORHAT", sensorValues[sensorName], str(datetime.datetime.utcnow()))
+      database.insertData(sensorName, sensorValues[sensorName], str(datetime.datetime.utcnow()))
     time.sleep(1) # Ralentizamos ya que hay un cuello de botella al insertar en la bbdd
 
 main()

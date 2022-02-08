@@ -9,27 +9,29 @@ Note: This class was created to catch
 
 # sudo mysql –u root –p
 
+# sudo mysql_secure_installation (Installation, only one time)
+
 # The code to create and insert data in the database
 
 """
 CREATE DATABASE RPI;
 USE RPI;
-CREATE TABLE SENSORHAT (
+CREATE TABLE SENSEHAT (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   sensor VARCHAR(32),
   value FLOAT,
   time DATETIME
 );
-CREATE USER 'rpi'@'localhost' IDENTIFIED BY 'fran5287';
-GRANT ALL PRIVILEGES ON RPI.SENSORHAT TO 'rpi'@'localhost';
-INSERT INTO SENSORHAT (value, sensor, time) VALUES (0.3454, 'a', STR_TO_DATE("10-17-2021 15:40:10", "%m-%d-%Y %H:%i:%s"));
+CREATE USER 'rpi'@'localhost' IDENTIFIED BY 'fran5287fred';
+GRANT ALL PRIVILEGES ON RPI.SENSEHAT TO 'rpi'@'localhost';
+INSERT INTO SENSERHAT (value, sensor, time) VALUES (0.3454, 'a', STR_TO_DATE("10-17-2021 15:40:10", "%m-%d-%Y %H:%i:%s"));
 """
 
 import MySQLdb
 
 DEFAULT_CONFIG = {
   'user'     : 'rpi',
-  'password' : 'fran5287',
+  'password' : 'fran5287fred',
   'host'     : 'localhost',
   'database' : 'RPI'
 }
@@ -50,7 +52,7 @@ class MySql():
         print(e)
 
   def insertData(self, sensor, value, time):
-    query = 'INSERT INTO SENSORHAT  (sensor, value, time) VALUES (%s, %s, %s);'
+    query = 'INSERT INTO SENSEHAT (sensor, value, time) VALUES (%s, %s, %s);'
     try:
       result = self.__cursor.execute(query, (sensor, value, time,))
       self.__conection.commit()
