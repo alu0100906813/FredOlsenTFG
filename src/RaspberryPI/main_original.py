@@ -16,8 +16,6 @@ with open('config.json', 'r') as jsonFile:
 
 inputs = [SenseHatController()] #Mics6813(), Sgp30(), BME680
 
-times = [{} for i in range(0, len(inputs))]
-
 broker = Broker(config)
 
 def main():
