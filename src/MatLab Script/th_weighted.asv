@@ -144,8 +144,8 @@ if(ig==1)
     disp(' Time         aw     ');
     disp(' (sec)     (m/sec^2) RMS ');
 %
-resultAWTime = [];
-resultAWValue = [];
+resultAWTime = {};
+resultAWValue = {};
     for i=1:loops
         ib=ia+ns-1;
         if(ib>n)
@@ -167,8 +167,6 @@ resultAWValue = [];
 
 %disp("resultAWValue:");
 %disp(resultAWValue);
-
-plot(resultAWTime, resultAWValue);
 %
 end
 disp(' ');
