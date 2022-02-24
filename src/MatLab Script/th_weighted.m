@@ -167,7 +167,8 @@ resultAWValue = [];
 
 %disp("resultAWValue:");
 %disp(resultAWValue);
-
+%resultFlot = figure;
+figure;
 plot(resultAWTime, resultAWValue);
 %
 end
