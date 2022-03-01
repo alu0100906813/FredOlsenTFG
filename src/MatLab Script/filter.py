@@ -43,3 +43,9 @@ data['Value'] = data['Value'].apply(filter)
 # Máximo y mínimo valor de la columna DESPUÉS del filtrado
 print("\nNew max value: ", data['Value'].max())
 print("New min value: ", data['Value'].min())
+
+OUTPUT_NAME_FILE = 'filtrado.csv'
+
+data.to_csv(OUTPUT_NAME_FILE, index=False)
+
+print('Fichero de salida: ', OUTPUT_NAME_FILE)
