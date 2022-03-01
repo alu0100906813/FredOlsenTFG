@@ -44,8 +44,10 @@ data['Value'] = data['Value'].apply(filter)
 print("\nNew max value: ", data['Value'].max())
 print("New min value: ", data['Value'].min())
 
-OUTPUT_NAME_FILE = 'filtrado.csv'
+OUTPUT_NAME_FILE = 'filtrado.xlsx'
 
-data.to_csv(OUTPUT_NAME_FILE, index=False)
+#data.to_csv(OUTPUT_NAME_FILE, index=False)
+
+data.to_excel(OUTPUT_NAME_FILE, index=False)
 
 print('Fichero de salida: ', OUTPUT_NAME_FILE)

@@ -25,6 +25,7 @@ if(file_choice==3)
         xfile = fullfile(pathname, filename);
 %
         [values, datetimes] = xlsread(xfile);
+        %disp(values)
         %disp(class(datetimes(1)));
         %disp(class(values(1)));
         datetimes = arrayfun(@(dt) posixtime(datetime(dt,'InputFormat','yyyy-MM-dd HH:mm:ss.S')), datetimes);
@@ -39,6 +40,16 @@ t = datetimes;
 %f=THM(:,2);
 f = values;
 %
+
+minValue = min(f);
+maxValue = max(f);
+
+disp("Valor mínimo:");
+disp(minValue);
+
+disp("Valor máximo:");
+disp(maxValue);
+
 tmx=max(t);
 tmi=min(t);
 n = length(f);
