@@ -6,9 +6,11 @@ data = pd.read_csv('primerViaje.csv')
 MAX_VALUE = 16.0
 MIN_VALUE = MAX_VALUE * - 1
 
+# Valores máximos y mínimos de la aceleración a calcular
 print("Min G Value:", MIN_VALUE)
 print("Max G Value:", MAX_VALUE)
 
+# Máximo y mínimo valor de la columna SIN filtrado
 print("\nCurrent max value: ", data['Value'].max())
 print("Current min value: ", data['Value'].min())
 
@@ -16,6 +18,12 @@ NUMBER_DATA_ITEMS = len(data['Value'])
 
 index = -1
 
+"""
+  En la columna actual, vemos si el valor sobrepasa el máximo o mínimo
+  En cuyo caso lo sustituimos por la media del anterior y el posterior valor
+  Puede darse el caso de que el anterior o el siguiente valor también estén fuera de rango
+  En cuyo caso la media puede dar fuera de rango también. Si eso ocurre, sustituimos por 0
+"""
 def filter(value):
   global index
   index = index + 1
@@ -32,5 +40,6 @@ def filter(value):
 
 data['Value'] = data['Value'].apply(filter)
 
+# Máximo y mínimo valor de la columna DESPUÉS del filtrado
 print("\nNew max value: ", data['Value'].max())
 print("New min value: ", data['Value'].min())
