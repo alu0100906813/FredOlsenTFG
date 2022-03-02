@@ -1,7 +1,7 @@
 
 import pandas as pd
 
-data = pd.read_csv('primerViaje.csv')
+data = pd.read_csv('segundoViaje.csv')
 
 MAX_VALUE = 16.0
 MIN_VALUE = MAX_VALUE * - 1
@@ -17,6 +17,7 @@ print("Current min value: ", data['Value'].min())
 NUMBER_DATA_ITEMS = len(data['Value'])
 
 index = -1
+invalidValues = 0
 
 """
   En la columna actual, vemos si el valor sobrepasa el máximo o mínimo
@@ -25,10 +26,11 @@ index = -1
   En cuyo caso la media puede dar fuera de rango también. Si eso ocurre, sustituimos por 0
 """
 def filter(value):
-  global index
-  index = index + 1
+  global index, invalidValues
+  index += 1
   if value < MAX_VALUE and value > MIN_VALUE:
     return value
+  invalidValues += 1
   lastValue = 0 if index == 0 else data['Value'][index - 1]
   nextValue = 0 if index >= NUMBER_DATA_ITEMS - 1 else data['Value'][index + 1]
   average = (lastValue + nextValue) / 2
@@ -43,6 +45,9 @@ data['Value'] = data['Value'].apply(filter)
 # Máximo y mínimo valor de la columna DESPUÉS del filtrado
 print("\nNew max value: ", data['Value'].max())
 print("New min value: ", data['Value'].min())
+
+# Numero de valores cambiados
+print("Values changed: ", invalidValues)
 
 OUTPUT_NAME_FILE = 'filtrado.xlsx'
 
