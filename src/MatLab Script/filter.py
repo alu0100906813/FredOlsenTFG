@@ -42,6 +42,15 @@ def filter(value):
 
 data['Value'] = data['Value'].apply(filter)
 
+index = 0
+
+def changeTime(time):
+  global index
+  index += 1
+  return index
+
+data['Time'] = data['Time'].apply(changeTime)
+
 # Máximo y mínimo valor de la columna DESPUÉS del filtrado
 print("\nNew max value: ", data['Value'].max())
 print("New min value: ", data['Value'].min())

@@ -29,13 +29,13 @@ if(file_choice==3)
         %disp(class(datetimes(1)));
         %disp(class(values(1)));
         datetimes = arrayfun(@(dt) posixtime(datetime(dt,'InputFormat','yyyy-MM-dd HH:mm:ss.S')), datetimes);
-        %disp(datetimes);
         %disp(posixtime(datetime(datetimes(1),'InputFormat','yyyy-MM-dd HH:mm:ss')));
         %disp(arrayfun(@(item) );
         %THM = xlsread(xfile);  
 end
 %
 %t=THM(:,1);
+%t = datetimes;
 t = datetimes;
 %f=THM(:,2);
 f = values;
