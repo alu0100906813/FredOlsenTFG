@@ -1,7 +1,7 @@
 
 import pandas as pd
 
-data = pd.read_csv('segundoViaje.csv')
+data = pd.read_csv('primerViaje.csv')
 
 MAX_VALUE = 16.0
 MIN_VALUE = MAX_VALUE * - 1
@@ -49,7 +49,7 @@ def changeTime(time):
   index += 1
   return index
 
-data['Time'] = data['Time'].apply(changeTime)
+#data['Time'] = data['Time'].apply(changeTime)
 
 # Máximo y mínimo valor de la columna DESPUÉS del filtrado
 print("\nNew max value: ", data['Value'].max())
