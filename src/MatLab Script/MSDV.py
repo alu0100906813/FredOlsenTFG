@@ -11,7 +11,7 @@ except:
   print("El valor de AW tiene que ser flotante")
   exit(-1)
 
-time = input("Introduzca el intervalo de tiempo en minutos: ")
+time = input("Introduzca el intervalo de tiempo en centisegundos: ")
 
 try:
   time = int(time)
@@ -19,7 +19,7 @@ except:
   print("El valor del tiempo tiene que ser entero")
   exit(-1)
 
-time = time * 60 * 10 # Pasamos a centisegundos, ya que el muestreo es de 10 datos por segundo
+time = int(time / 10) # Pasamos a segundos, ya que el muestreo es de 10 datos por segundo
 
 awPowTwo = pow(aw, 2)
 integralFromZeroToTime = integrate.quad(lambda x : awPowTwo, 0, time)
