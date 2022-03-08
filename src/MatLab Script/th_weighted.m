@@ -172,6 +172,9 @@ resultAWValue = [];
 %resultFlot = figure;
 figure;
 plot(resultAWTime, resultAWValue);
+title('Gráfica de AW');
+xlabel('Aceleración(m/sec2)');
+ylabel('Tiempo(sec)');
 %
 end
 disp(' ');
