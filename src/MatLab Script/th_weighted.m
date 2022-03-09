@@ -173,8 +173,8 @@ resultAWValue = [];
 figure;
 plot(resultAWTime, resultAWValue);
 title('Gráfica de AW');
-xlabel('Aceleración(m/sec2)');
-ylabel('Tiempo(sec)');
+xlabel('Tiempo(sec)');
+ylabel('Aceleración(m/sec2)');
 %
 end
 disp(' ');
