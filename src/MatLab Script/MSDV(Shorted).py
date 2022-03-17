@@ -11,7 +11,7 @@ data = pd.read_excel('primerViajeFiltrado.xlsx')
 
 #mean = data['Value'].mean()
 
-mean = 0.01765
+mean = 0.01102
 
 index = 0
 
