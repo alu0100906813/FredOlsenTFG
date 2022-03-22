@@ -1,4 +1,4 @@
-![](.\img\logo.png)
+![](./img/logo.png)
 
 # TFG: IoV Internet of Vessels
 
