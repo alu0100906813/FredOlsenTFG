@@ -25,7 +25,7 @@ El proyecto abarca todos los puntos. Desde la toma de datos hasta el tratamiento
 
 También se añade una posible implementación real de la arquitectura.
 
-![](./img/Diagramas Fred Olsen-EsquemaProducción.drawio.png)
+![](./img/diagram.png)
 
 ---
 
