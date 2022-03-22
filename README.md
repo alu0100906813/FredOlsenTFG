@@ -25,6 +25,8 @@ El proyecto abarca todos los puntos. Desde la toma de datos hasta el tratamiento
 
 También se añade una posible implementación real de la arquitectura.
 
+![](./img/Diagramas Fred Olsen-EsquemaProducción.drawio.png)
+
 ---
 
 Dentro del repositorio **src**, se encuentra todo el código creado para la aplicación.
